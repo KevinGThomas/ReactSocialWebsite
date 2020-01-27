@@ -1,56 +1,56 @@
-import React, { Component } from 'react';
-import withStyles from '@material-ui/core/styles/withStyles';
-import PropTypes from 'prop-types';
-import AppIcon from '../images/icon.png';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react"
+import withStyles from "@material-ui/core/styles/withStyles"
+import PropTypes from "prop-types"
+import AppIcon from "../images/site_logo.png"
+import { Link } from "react-router-dom"
 
 // MUI Stuff
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Grid from "@material-ui/core/Grid"
+import Typography from "@material-ui/core/Typography"
+import TextField from "@material-ui/core/TextField"
+import Button from "@material-ui/core/Button"
+import CircularProgress from "@material-ui/core/CircularProgress"
 // Redux stuff
-import { connect } from 'react-redux';
-import { loginUser } from '../redux/actions/userActions';
+import { connect } from "react-redux"
+import { loginUser } from "../redux/actions/userActions"
 
-const styles = (theme) => ({
+const styles = theme => ({
   ...theme.content
-});
+})
 
 class login extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       errors: {}
-    };
+    }
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.UI.errors) {
-      this.setState({ errors: nextProps.UI.errors });
+      this.setState({ errors: nextProps.UI.errors })
     }
   }
-  handleSubmit = (event) => {
-    event.preventDefault();
+  handleSubmit = event => {
+    event.preventDefault()
     const userData = {
       email: this.state.email,
       password: this.state.password
-    };
-    this.props.loginUser(userData, this.props.history);
-  };
-  handleChange = (event) => {
+    }
+    this.props.loginUser(userData, this.props.history)
+  }
+  handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
-    });
-  };
+    })
+  }
   render() {
     const {
       classes,
       UI: { loading }
-    } = this.props;
-    const { errors } = this.state;
+    } = this.props
+    const { errors } = this.state
 
     return (
       <Grid container className={classes.form}>
@@ -110,7 +110,7 @@ class login extends Component {
         </Grid>
         <Grid item sm />
       </Grid>
-    );
+    )
   }
 }
 
@@ -119,18 +119,18 @@ login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired
-};
+}
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: state.user,
   UI: state.UI
-});
+})
 
 const mapActionsToProps = {
   loginUser
-};
+}
 
 export default connect(
   mapStateToProps,
   mapActionsToProps
-)(withStyles(styles)(login));
+)(withStyles(styles)(login))

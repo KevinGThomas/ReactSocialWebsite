@@ -1,27 +1,27 @@
-import React, { Component } from 'react';
-import withStyles from '@material-ui/core/styles/withStyles';
-import { Link } from 'react-router-dom';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import PropTypes from 'prop-types';
-import MyButton from '../../util/MyButton';
-import DeleteScream from './DeleteScream';
-import ScreamDialog from './ScreamDialog';
-import LikeButton from './LikeButton';
+import React, { Component } from "react"
+import withStyles from "@material-ui/core/styles/withStyles"
+import { Link } from "react-router-dom"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
+import PropTypes from "prop-types"
+import MyButton from "../../util/MyButton"
+import DeleteScream from "./DeleteScream"
+import ScreamDialog from "./ScreamDialog"
+import LikeButton from "./LikeButton"
 // MUI Stuff
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import Card from "@material-ui/core/Card"
+import CardContent from "@material-ui/core/CardContent"
+import CardMedia from "@material-ui/core/CardMedia"
+import Typography from "@material-ui/core/Typography"
 // Icons
-import ChatIcon from '@material-ui/icons/Chat';
+import ChatIcon from "@material-ui/icons/Chat"
 // Redux
-import { connect } from 'react-redux';
+import { connect } from "react-redux"
 
 const styles = {
   card: {
-    position: 'relative',
-    display: 'flex',
+    position: "relative",
+    display: "flex",
     marginBottom: 20
   },
   image: {
@@ -29,13 +29,13 @@ const styles = {
   },
   content: {
     padding: 25,
-    objectFit: 'cover'
+    objectFit: "cover"
   }
-};
+}
 
 class Scream extends Component {
   render() {
-    dayjs.extend(relativeTime);
+    dayjs.extend(relativeTime)
     const {
       classes,
       scream: {
@@ -51,12 +51,12 @@ class Scream extends Component {
         authenticated,
         credentials: { handle }
       }
-    } = this.props;
+    } = this.props
 
     const deleteButton =
       authenticated && userHandle === handle ? (
         <DeleteScream screamId={screamId} />
-      ) : null;
+      ) : null
     return (
       <Card className={classes.card}>
         <CardMedia
@@ -91,7 +91,7 @@ class Scream extends Component {
           />
         </CardContent>
       </Card>
-    );
+    )
   }
 }
 
@@ -100,10 +100,10 @@ Scream.propTypes = {
   scream: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   openDialog: PropTypes.bool
-};
+}
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: state.user
-});
+})
 
-export default connect(mapStateToProps)(withStyles(styles)(Scream));
+export default connect(mapStateToProps)(withStyles(styles)(Scream))
