@@ -133,6 +133,7 @@ class ScreamDialog extends Component {
       <Fragment>
         <MyButton
           onClick={this.handleOpen}
+          
           tip="Expand scream"
           tipClassName={classes.expandButton}
         >
