@@ -10,6 +10,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import DialogActions from "@material-ui/core/DialogActions"
 import DeleteOutline from "@material-ui/icons/DeleteOutline"
 
+
 import { connect } from "react-redux"
 import { deleteScream } from "../../redux/actions/dataActions"
 

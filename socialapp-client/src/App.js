@@ -27,7 +27,7 @@ import axios from "axios"
 
 const theme = createMuiTheme(themeObject)
 
-axios.defaults.baseURL =
+axios.defaults.baseURL = 
   "https://us-central1-socialapp-2b1be.cloudfunctions.net/api"
 
 const token = localStorage.FBIdToken
