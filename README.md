@@ -30,5 +30,4 @@ This is the full code for 'ReactSocialWebsite'. This code is a Social Website to
 npm run build
 firebase deploy
 ```
-
 **(Make sure to enable functions, firestore and hosting in Firebase)**
