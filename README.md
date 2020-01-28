@@ -7,7 +7,7 @@ Website link: https://socialapp-2b1be.firebaseapp.com/
 
 This is the full code for 'ReactSocialWebsite'. This code is a Social Website to view, like and comment on posts after registration. The Website utilizes React for UI interfaces, Redux for centralized state management and Firestore to store data.
 
-<img width="450" src="https://user-images.githubusercontent.com/20180559/73256127-64a4e380-41e7-11ea-8c2e-384269fbb8a1.png"/> <img width="400" height="315" src="https://user-images.githubusercontent.com/20180559/73256131-666ea700-41e7-11ea-9a08-2384845df6ef.png"/>
+<img width="450" src="https://user-images.githubusercontent.com/20180559/73256724-75098e00-41e8-11ea-8926-e32cca8b8732.png"/> <img width="400" height="270" src="https://user-images.githubusercontent.com/20180559/73256131-666ea700-41e7-11ea-9a08-2384845df6ef.png"/>
 
 ## Features
 
