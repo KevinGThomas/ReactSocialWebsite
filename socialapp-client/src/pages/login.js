@@ -4,13 +4,14 @@ import PropTypes from "prop-types"
 import AppIcon from "../images/site_logo.png"
 import { Link } from "react-router-dom"
 
-// MUI Stuff
+// MUI
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
 import CircularProgress from "@material-ui/core/CircularProgress"
-// Redux stuff
+
+// Redux
 import { connect } from "react-redux"
 import { loginUser } from "../redux/actions/userActions"
 

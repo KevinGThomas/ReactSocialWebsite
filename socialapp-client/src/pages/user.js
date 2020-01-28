@@ -3,11 +3,13 @@ import PropTypes from "prop-types"
 import axios from "axios"
 import Scream from "../components/scream/Scream"
 import StaticProfile from "../components/profile/StaticProfile"
-import Grid from "@material-ui/core/Grid"
-
 import ScreamSkeleton from "../util/ScreamSkeleton"
 import ProfileSkeleton from "../util/ProfileSkeleton"
 
+//MUI
+import Grid from "@material-ui/core/Grid"
+
+//Redux
 import { connect } from "react-redux"
 import { getUserData } from "../redux/actions/dataActions"
 
