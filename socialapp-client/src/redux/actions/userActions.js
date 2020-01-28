@@ -100,6 +100,7 @@ export const markNotificationsRead = notificationIds => dispatch => {
       })
     })
     .catch(err => console.log(err))
+    
 }
 
 const setAuthorizationHeader = token => {

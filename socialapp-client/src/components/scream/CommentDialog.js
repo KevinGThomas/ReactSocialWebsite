@@ -14,9 +14,7 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 // Icons
 import CloseIcon from "@material-ui/icons/Close"
-import UnfoldMore from "@material-ui/icons/UnfoldMore"
 import FavoriteIcon from "@material-ui/icons/Favorite"
-
 import ChatIcon from "@material-ui/icons/Chat"
 // Redux stuff
 import { connect } from "react-redux"
@@ -38,8 +36,8 @@ const styles = theme => ({
     left: "90%"
   },
   expandButton: {
-    position: "absolute",
-    left: "90%"
+    position: "relative",
+    
   },
   spinnerDiv: {
     textAlign: "center",
@@ -48,7 +46,7 @@ const styles = theme => ({
   }
 })
 
-class ScreamDialog extends Component {
+class CommentDialog extends Component {
   state = {
     open: false,
     oldPath: "",
@@ -137,10 +135,10 @@ class ScreamDialog extends Component {
         <MyButton
           onClick={this.handleOpen}
           
-          tip="Expand scream"
+          tip="Comments"
           tipClassName={classes.expandButton}
         >
-          <UnfoldMore color="primary" />
+          <ChatIcon color="primary" />
         </MyButton>
         
         <Dialog
@@ -166,7 +164,7 @@ class ScreamDialog extends Component {
   }
 }
 
-ScreamDialog.propTypes = {
+CommentDialog.propTypes = {
   clearErrors: PropTypes.func.isRequired,
   getScream: PropTypes.func.isRequired,
   screamId: PropTypes.string.isRequired,
@@ -188,4 +186,4 @@ const mapActionsToProps = {
 export default connect(
   mapStateToProps,
   mapActionsToProps
-)(withStyles(styles)(ScreamDialog))
+)(withStyles(styles)(CommentDialog))

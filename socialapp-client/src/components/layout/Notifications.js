@@ -36,6 +36,7 @@ class Notifications extends Component {
   }
   render() {
     const notifications = this.props.notifications
+    console.log(notifications)
     const anchorEl = this.state.anchorEl
 
     dayjs.extend(relativeTime)
@@ -57,11 +58,14 @@ class Notifications extends Component {
     } else {
       notificationsIcon = <NotificationsIcon />
     }
+
     let notificationsMarkup =
       notifications && notifications.length > 0 ? (
         notifications.map(not => {
           const verb = not.type === "like" ? "liked" : "commented on"
+
           const time = dayjs(not.createdAt).fromNow()
+          console.log(not)
           const iconColor = not.read ? "primary" : "secondary"
           const icon =
             not.type === "like" ? (

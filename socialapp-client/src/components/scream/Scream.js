@@ -4,9 +4,9 @@ import { Link } from "react-router-dom"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import PropTypes from "prop-types"
-import MyButton from "../../util/MyButton"
 import DeleteScream from "./DeleteScream"
 import ScreamDialog from "./ScreamDialog"
+import CommentDialog from "./CommentDialog"
 import LikeButton from "./LikeButton"
 // MUI Stuff
 import Card from "@material-ui/core/Card"
@@ -14,7 +14,7 @@ import CardContent from "@material-ui/core/CardContent"
 import CardMedia from "@material-ui/core/CardMedia"
 import Typography from "@material-ui/core/Typography"
 // Icons
-import ChatIcon from "@material-ui/icons/Chat"
+
 // Redux
 import { connect } from "react-redux"
 
@@ -30,7 +30,8 @@ const styles = {
   content: {
     padding: 25,
     objectFit: "cover"
-  }
+  },
+  
 }
 
 class Scream extends Component {
@@ -57,6 +58,7 @@ class Scream extends Component {
       authenticated && userHandle === handle ? (
         <DeleteScream screamId={screamId} />
       ) : null
+
     return (
       <Card className={classes.card}>
         <CardMedia
@@ -80,10 +82,15 @@ class Scream extends Component {
           <Typography variant="body1">{body}</Typography>
           <LikeButton screamId={screamId} />
           <span>{likeCount} Likes</span>
-          <MyButton tip="comments">
-            <ChatIcon color="primary" />
-          </MyButton>
-          <span>{commentCount} comments</span>
+          
+            <CommentDialog
+              screamId={screamId}
+              userHandle={userHandle}
+              openDialog={this.props.openDialog}
+            />
+          <span>
+            {commentCount} comments
+          </span>
           <ScreamDialog
             screamId={screamId}
             userHandle={userHandle}
