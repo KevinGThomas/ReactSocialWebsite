@@ -1,7 +1,7 @@
 # ReactSocialWebsite
 
 A Social Website created using React, Redux and Firestore. <br/> 
-Website link: <a target="_blank">https://socialapp-2b1be.firebaseapp.com/</a>
+Website link: <a href="https://socialapp-2b1be.firebaseapp.com/" target="_blank">https://socialapp-2b1be.firebaseapp.com/</a>
 
 ## Overview
 
