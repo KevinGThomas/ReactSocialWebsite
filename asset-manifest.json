@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/ReactSocialWebsite/static/css/main.92a846c7.chunk.css",
+    "main.js": "/ReactSocialWebsite/static/js/main.8f83ecc8.chunk.js",
+    "main.js.map": "/ReactSocialWebsite/static/js/main.8f83ecc8.chunk.js.map",
+    "runtime-main.js": "/ReactSocialWebsite/static/js/runtime-main.7ce4de9b.js",
+    "runtime-main.js.map": "/ReactSocialWebsite/static/js/runtime-main.7ce4de9b.js.map",
+    "static/js/2.07cc9e80.chunk.js": "/ReactSocialWebsite/static/js/2.07cc9e80.chunk.js",
+    "static/js/2.07cc9e80.chunk.js.map": "/ReactSocialWebsite/static/js/2.07cc9e80.chunk.js.map",
+    "index.html": "/ReactSocialWebsite/index.html",
+    "precache-manifest.7fb46067ba911af51c4ea825589cad1e.js": "/ReactSocialWebsite/precache-manifest.7fb46067ba911af51c4ea825589cad1e.js",
+    "service-worker.js": "/ReactSocialWebsite/service-worker.js",
+    "static/css/main.92a846c7.chunk.css.map": "/ReactSocialWebsite/static/css/main.92a846c7.chunk.css.map",
+    "static/js/2.07cc9e80.chunk.js.LICENSE": "/ReactSocialWebsite/static/js/2.07cc9e80.chunk.js.LICENSE",
+    "static/media/no-img.png": "/ReactSocialWebsite/static/media/no-img.6732bd42.png",
+    "static/media/site_logo.png": "/ReactSocialWebsite/static/media/site_logo.522efa46.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7ce4de9b.js",
+    "static/js/2.07cc9e80.chunk.js",
+    "static/css/main.92a846c7.chunk.css",
+    "static/js/main.8f83ecc8.chunk.js"
+  ]
+}
