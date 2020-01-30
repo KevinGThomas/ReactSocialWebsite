@@ -38,7 +38,7 @@ export default function(state = initialState, action) {
       }
     case LIKE_SCREAM:
       return {
-        ...state,
+        ...state, 
         likes: [
           ...state.likes,
           {
