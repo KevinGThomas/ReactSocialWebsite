@@ -11,6 +11,26 @@ const {
   reduceUserDetails
 } = require("../util/validators")
 
+exports.verifyEmail = (request, response) => {
+  const userValue = {
+    email: request.body.email
+  }
+  var user = firebase.auth()
+  user.userValue.email
+    .sendEmailVerification()
+    .then(function() {
+      return response.json({
+        general: "Verification email sent successfully",
+        token
+      })
+    })
+    .catch(function(error) {
+      return response.status(500).json({
+        general: "Something went wrong, please try again - " + err.code
+      })
+    })
+}
+
 exports.signup = (request, response) => {
   const newUser = {
     email: request.body.email,
@@ -42,6 +62,7 @@ exports.signup = (request, response) => {
       }
     })
     .then(data => {
+      firebase.auth().currentUser.sendEmailVerification()
       userId = data.user.uid
       return data.user.getIdToken()
     })
@@ -66,11 +87,9 @@ exports.signup = (request, response) => {
       } else if (err.code == "auth/weak-password") {
         return response.status(400).json({ password: "Password is too weak" })
       } else {
-        return response
-          .status(500)
-          .json({
-            general: "Something went wrong, please try again - " + err.code
-          })
+        return response.status(500).json({
+          general: "Something went wrong, please try again - " + err.code
+        })
       }
     })
 }
@@ -89,6 +108,11 @@ exports.login = (request, response) => {
     .auth()
     .signInWithEmailAndPassword(user.email, user.password)
     .then(data => {
+      if (!firebase.auth().currentUser.emailVerified) {
+        throw {
+          name: "verify"
+        }
+      }
       return data.user.getIdToken()
     })
     .then(token => {
@@ -96,9 +120,11 @@ exports.login = (request, response) => {
     })
     .catch(err => {
       console.error(err)
-      return response
-        .status(403)
-        .json({ general: "Wrong credentials, please try again." })
+      if (err.name === "verify") {
+        return response.status(403).json({ general: "Email not verified" })
+      } else {
+      return response.status(403).json({ general: "Wrong credentials, please try again." })
+      }
     })
 }
 

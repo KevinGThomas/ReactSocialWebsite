@@ -1,5 +1,10 @@
 const { db } = require("../util/admin")
 
+exports.executeChat = (request, response) => {
+
+}
+
+
 exports.getAllScreams = (request, response) => {
   db.collection("screams")
     .orderBy("createdAt", "desc")

@@ -64,7 +64,7 @@ class signup extends Component {
       <Grid container className={classes.form}>
         <Grid item sm />
         <Grid item sm>
-          <img src={AppIcon} alt="monkey" className={classes.image} />
+          <img src={AppIcon} alt="logo" className={classes.image} />
           <Typography variant="h2" className={classes.pageTitle}>
             SignUp
           </Typography>
@@ -81,6 +81,7 @@ class signup extends Component {
               onChange={this.handleChange}
               fullWidth
             />
+
             <TextField
               id="password"
               name="password"

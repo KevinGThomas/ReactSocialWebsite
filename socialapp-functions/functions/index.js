@@ -9,7 +9,8 @@ const {
   commentOnScream,
   likeScream,
   unlikeScream,
-  deleteScream
+  deleteScream,
+  executeChat
 } = require("./handlers/screams")
 const {
   signup,
@@ -18,7 +19,8 @@ const {
   addUserDetails,
   getAuthenticatedUser,
   getUserDetails,
-  markNotificationsRead
+  markNotificationsRead,
+  verifyEmail
 } = require("./handlers/users")
 
 const express = require("express")
@@ -37,6 +39,7 @@ app.delete("/scream/:screamId", FBAuth, deleteScream)
 app.get("/scream/:screamId/like", FBAuth, likeScream)
 app.get("/scream/:screamId/unlike", FBAuth, unlikeScream)
 app.post("/scream/:screamId/comment", FBAuth, commentOnScream)
+app.get("/chat", executeChat)
 
 //Users routes
 app.post("/signup", signup)
@@ -46,6 +49,7 @@ app.post("/user", FBAuth, addUserDetails)
 app.get("/user", FBAuth, getAuthenticatedUser)
 app.get("/user/:handle", getUserDetails)
 app.post("/notifications", FBAuth, markNotificationsRead)
+app.post("/verify", verifyEmail)
 
 exports.api = functions.https.onRequest(app)
 
