@@ -1,32 +1,28 @@
 import React, { Component } from "react"
+
 import withStyles from "@material-ui/core/styles/withStyles"
 import PropTypes from "prop-types"
 import AppIcon from "../images/site_logo.png"
-import { Link } from "react-router-dom"
 
-// MUI
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
 import CircularProgress from "@material-ui/core/CircularProgress"
 
-// Redux
+//Redux
 import { connect } from "react-redux"
-import { signupUser } from "../redux/actions/userActions"
+import { forgotPassword } from "../redux/actions/userActions"
 
 const styles = theme => ({
   ...theme.content
 })
 
-class signup extends Component {
+class forgot extends Component {
   constructor() {
     super()
     this.state = {
       email: "",
-      password: "",
-      confirmPassword: "",
-      handle: "",
       errors: {}
     }
   }
@@ -37,16 +33,10 @@ class signup extends Component {
   }
   handleSubmit = event => {
     event.preventDefault()
-    this.setState({
-      loading: true
-    })
-    const newUserData = {
-      email: this.state.email,
-      password: this.state.password,
-      confirmPassword: this.state.confirmPassword,
-      handle: this.state.handle
+    const userData = {
+      email: this.state.email
     }
-    this.props.signupUser(newUserData, this.props.history)
+    this.props.forgotPassword(userData, this.props.history)
   }
   handleChange = event => {
     this.setState({
@@ -59,14 +49,13 @@ class signup extends Component {
       UI: { loading }
     } = this.props
     const { errors } = this.state
-
     return (
       <Grid container className={classes.form}>
         <Grid item sm />
         <Grid item sm>
           <img src={AppIcon} alt="logo" className={classes.image} />
-          <Typography variant="h2" className={classes.pageTitle}>
-            SignUp
+          <Typography variant="h3" className={classes.pageTitle}>
+            Forgot Password
           </Typography>
           <form noValidate onSubmit={this.handleSubmit}>
             <TextField
@@ -78,43 +67,6 @@ class signup extends Component {
               helperText={errors.email}
               error={errors.email ? true : false}
               value={this.state.email}
-              onChange={this.handleChange}
-              fullWidth
-            />
-
-            <TextField
-              id="password"
-              name="password"
-              type="password"
-              label="Password"
-              className={classes.textField}
-              helperText={errors.password}
-              error={errors.password ? true : false}
-              value={this.state.password}
-              onChange={this.handleChange}
-              fullWidth
-            />
-            <TextField
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              label="Confirm Password"
-              className={classes.textField}
-              helperText={errors.confirmPassword}
-              error={errors.confirmPassword ? true : false}
-              value={this.state.confirmPassword}
-              onChange={this.handleChange}
-              fullWidth
-            />
-            <TextField
-              id="handle"
-              name="handle"
-              type="text"
-              label="Handle/Username"
-              className={classes.textField}
-              helperText={errors.handle}
-              error={errors.handle ? true : false}
-              value={this.state.handle}
               onChange={this.handleChange}
               fullWidth
             />
@@ -130,15 +82,13 @@ class signup extends Component {
               className={classes.button}
               disabled={loading}
             >
-              SignUp
+              Send password reset link
               {loading && (
                 <CircularProgress size={30} className={classes.progress} />
               )}
             </Button>
             <br />
-            <small>
-              Already have an account ? Login <Link to="/login">here</Link>
-            </small>
+            <br />
           </form>
         </Grid>
         <Grid item sm />
@@ -147,11 +97,11 @@ class signup extends Component {
   }
 }
 
-signup.propTypes = {
+forgot.propTypes = {
   classes: PropTypes.object.isRequired,
+  forgotPassword: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
-  UI: PropTypes.object.isRequired,
-  signupUser: PropTypes.func.isRequired
+  UI: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -159,6 +109,11 @@ const mapStateToProps = state => ({
   UI: state.UI
 })
 
-export default connect(mapStateToProps, { signupUser })(
-  withStyles(styles)(signup)
-)
+const mapActionsToProps = {
+  forgotPassword
+}
+
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(withStyles(styles)(forgot))

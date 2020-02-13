@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 
 import Scream from "../components/scream/Scream"
 import Profile from "../components/profile/Profile"
+import Chat from "../components/chat/Chat"
 import ScreamSkeleton from "../util/ScreamSkeleton"
 
 //Redux
@@ -28,6 +29,11 @@ class home extends Component {
         </Grid>
         <Grid item sm={4} xs={12}>
           <Profile />
+          <br/><br/>
+          <Chat />
+        </Grid>
+        <Grid item sm={8} xs={12}>
+          
         </Grid>
       </Grid>
     )

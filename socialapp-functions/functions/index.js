@@ -10,7 +10,7 @@ const {
   likeScream,
   unlikeScream,
   deleteScream,
-  executeChat
+  getUsers
 } = require("./handlers/screams")
 const {
   signup,
@@ -20,7 +20,7 @@ const {
   getAuthenticatedUser,
   getUserDetails,
   markNotificationsRead,
-  verifyEmail
+  forgotPassword
 } = require("./handlers/users")
 
 const express = require("express")
@@ -39,7 +39,7 @@ app.delete("/scream/:screamId", FBAuth, deleteScream)
 app.get("/scream/:screamId/like", FBAuth, likeScream)
 app.get("/scream/:screamId/unlike", FBAuth, unlikeScream)
 app.post("/scream/:screamId/comment", FBAuth, commentOnScream)
-app.get("/chat", executeChat)
+app.post("/users", getUsers)
 
 //Users routes
 app.post("/signup", signup)
@@ -49,9 +49,11 @@ app.post("/user", FBAuth, addUserDetails)
 app.get("/user", FBAuth, getAuthenticatedUser)
 app.get("/user/:handle", getUserDetails)
 app.post("/notifications", FBAuth, markNotificationsRead)
-app.post("/verify", verifyEmail)
+app.post("/forgot", forgotPassword)
 
 exports.api = functions.https.onRequest(app)
+
+
 
 exports.createNotificationOnLike = functions.firestore
   .document("likes/{id}")

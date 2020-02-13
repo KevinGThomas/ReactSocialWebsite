@@ -9,6 +9,25 @@ import {
 } from "../types"
 import axios from "axios"
 
+//Forgot Password
+export const forgotPassword = (userData, history) => dispatch => {
+  dispatch({ type: LOADING_UI })
+  axios
+    .post("/forgot", userData)
+    .then(res => {
+      //dispatch(getUserData())
+      dispatch({ type: CLEAR_ERRORS })
+      alert("Password reset mail sent successfully")
+      history.push("/login")
+    })
+    .catch(err => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data
+      })
+    })
+}
+
 //Login
 export const loginUser = (userData, history) => dispatch => {
   dispatch({ type: LOADING_UI })
@@ -35,7 +54,7 @@ export const signupUser = (newUserData, history) => dispatch => {
     .post("/signup", newUserData)
     .then(res => {
       //setAuthorizationHeader(res.data.token)
-      dispatch(getUserData())
+      //dispatch(getUserData())
       dispatch({ type: CLEAR_ERRORS })
       alert('Signup successful, please verify your email')
       history.push("/login")

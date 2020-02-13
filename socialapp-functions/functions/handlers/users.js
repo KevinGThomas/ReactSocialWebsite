@@ -11,22 +11,21 @@ const {
   reduceUserDetails
 } = require("../util/validators")
 
-exports.verifyEmail = (request, response) => {
+exports.forgotPassword = (request, response) => {
   const userValue = {
     email: request.body.email
   }
-  var user = firebase.auth()
-  user.userValue.email
-    .sendEmailVerification()
+  firebase
+    .auth()
+    .sendPasswordResetEmail(userValue.email)
     .then(function() {
       return response.json({
-        general: "Verification email sent successfully",
-        token
+        general: "Reset password mail sent successfully."
       })
     })
     .catch(function(error) {
       return response.status(500).json({
-        general: "Something went wrong, please try again - " + err.code
+        general: "Something went wrong, please try again."
       })
     })
 }
@@ -123,7 +122,9 @@ exports.login = (request, response) => {
       if (err.name === "verify") {
         return response.status(403).json({ general: "Email not verified" })
       } else {
-      return response.status(403).json({ general: "Wrong credentials, please try again." })
+        return response
+          .status(403)
+          .json({ general: "Wrong credentials, please try again." })
       }
     })
 }
