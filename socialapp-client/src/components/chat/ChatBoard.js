@@ -4,7 +4,7 @@ import ReactLoading from "react-loading"
 //import "react-toastify/dist/ReactToastify.css"
 import { myFirestore, myStorage } from "../../MyFirebase"
 import images from "../../Images"
-//import "./ChatBoard.css"
+import "./ChatBoard.css"
 import { AppString } from "./../../Const"
 
 export default class ChatBoard extends Component {
@@ -15,9 +15,9 @@ export default class ChatBoard extends Component {
       isShowSticker: false,
       inputValue: ""
     }
-    this.currentUserId = localStorage.getItem(AppString.ID)
-    this.currentUserAvatar = localStorage.getItem(AppString.PHOTO_URL)
-    this.currentUserNickname = localStorage.getItem(AppString.NICKNAME)
+    //this.currentUserId = localStorage.getItem(AppString.ID)
+    //this.currentUserAvatar = localStorage.getItem(AppString.PHOTO_URL)
+    //this.currentUserNickname = localStorage.getItem(AppString.NICKNAME)
     this.listMessage = []
     this.currentPeerUser = this.props.currentPeerUser
     this.groupChatId = null
@@ -188,11 +188,11 @@ export default class ChatBoard extends Component {
         <div className="headerChatBoard">
           <img
             className="viewAvatarItem"
-            src={this.currentPeerUser.photoUrl}
+            src={this.currentPeerUser.imageUrl}
             alt="icon avatar"
           />
           <span className="textHeaderChatBoard">
-            {this.currentPeerUser.nickname}
+            {this.currentPeerUser.handle}
           </span>
         </div>
 
