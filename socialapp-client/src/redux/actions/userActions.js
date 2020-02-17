@@ -34,7 +34,7 @@ export const loginUser = (userData, history) => dispatch => {
   axios
     .post("/login", userData)
     .then(res => {
-      setAuthorizationHeader(res.data.token)
+      setAuthorizationHeader(res.data.token, res.data.id, res.data.handle, res.data.imageUrl)
       dispatch(getUserData())
       dispatch({ type: CLEAR_ERRORS })
       history.push("/")
@@ -70,6 +70,9 @@ export const signupUser = (newUserData, history) => dispatch => {
 //Logout
 export const logoutUser = () => dispatch => {
   localStorage.removeItem("FBIdToken")
+  localStorage.removeItem("UserId")
+  localStorage.removeItem("imageUrl")
+  localStorage.removeItem("handle")
   delete axios.defaults.headers.common["Authorization"]
   dispatch({ type: SET_UNAUTHENTICATED })
 }
@@ -123,8 +126,12 @@ export const markNotificationsRead = notificationIds => dispatch => {
     
 }
 
-const setAuthorizationHeader = token => {
+const setAuthorizationHeader = (token,userid,imageUrl,handle) => {
   const FBIdToken = `Bearer ${token}`
   localStorage.setItem("FBIdToken", FBIdToken)
+  // localStorage.setItem("UserId", userid)
+  // localStorage.setItem("imageUrl", imageUrl)
+  // localStorage.setItem("handle", handle)
+
   axios.defaults.headers.common["Authorization"] = FBIdToken
 }

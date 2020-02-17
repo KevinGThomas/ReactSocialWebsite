@@ -28,6 +28,10 @@ class user extends Component {
     axios
       .get(`/user/${handle}`)
       .then(res => {
+        // console.log(res)
+        // localStorage.setItem("UserId", res.data.user.userid)
+        // localStorage.setItem("imageUrl", res.data.user.imageUrl)
+        // localStorage.setItem("handle", res.data.user.handle)
         this.setState({
           profile: res.data.user
         })

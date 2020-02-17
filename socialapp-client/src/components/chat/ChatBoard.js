@@ -5,7 +5,7 @@ import ReactLoading from "react-loading"
 import { myFirestore, myStorage } from "../../MyFirebase"
 import images from "../../Images"
 import "./ChatBoard.css"
-import { AppString } from "./../../Const"
+//import { AppString } from "./../../Const"
 
 export default class ChatBoard extends Component {
   constructor(props) {
@@ -15,9 +15,9 @@ export default class ChatBoard extends Component {
       isShowSticker: false,
       inputValue: ""
     }
-    //this.currentUserId = localStorage.getItem(AppString.ID)
-    //this.currentUserAvatar = localStorage.getItem(AppString.PHOTO_URL)
-    //this.currentUserNickname = localStorage.getItem(AppString.NICKNAME)
+    this.currentUserId = localStorage.getItem("UserId")
+    this.currentUserAvatar = localStorage.getItem("imageUrl")
+    this.currentUserHandle = localStorage.getItem("handle")
     this.listMessage = []
     this.currentPeerUser = this.props.currentPeerUser
     this.groupChatId = null
@@ -30,7 +30,7 @@ export default class ChatBoard extends Component {
   }
 
   componentDidMount() {
-    // For first render, it's not go through componentWillReceiveProps
+    // For first render, it will not go through componentWillReceiveProps
     this.getListHistory()
   }
 
@@ -55,29 +55,30 @@ export default class ChatBoard extends Component {
     this.setState({ isLoading: true })
     if (
       this.hashString(this.currentUserId) <=
-      this.hashString(this.currentPeerUser.id)
+      this.hashString(this.currentPeerUser.userId)
     ) {
-      this.groupChatId = `${this.currentUserId}-${this.currentPeerUser.id}`
+      this.groupChatId = `${this.currentUserId}-${this.currentPeerUser.userId}`
     } else {
-      this.groupChatId = `${this.currentPeerUser.id}-${this.currentUserId}`
+      this.groupChatId = `${this.currentPeerUser.userId}-${this.currentUserId}`
     }
 
     // Get history and listen new data added
     this.removeListener = myFirestore
-      .collection(AppString.NODE_MESSAGES)
+      .collection("messages")
       .doc(this.groupChatId)
       .collection(this.groupChatId)
       .onSnapshot(
         snapshot => {
           snapshot.docChanges().forEach(change => {
-            if (change.type === AppString.DOC_ADDED) {
+            if (change.type === "added") {
               this.listMessage.push(change.doc.data())
+              console.log(change.doc.data())
             }
           })
           this.setState({ isLoading: false })
         },
         err => {
-          this.props.showToast(0, err.toString())
+          //this.props.showToast(0, err.toString())
         }
       )
   }
@@ -101,14 +102,14 @@ export default class ChatBoard extends Component {
 
     const itemMessage = {
       idFrom: this.currentUserId,
-      idTo: this.currentPeerUser.id,
+      idTo: this.currentPeerUser.userId,
       timestamp: timestamp,
       content: content.trim(),
       type: type
     }
 
     myFirestore
-      .collection(AppString.NODE_MESSAGES)
+      .collection("messages")
       .doc(this.groupChatId)
       .collection(this.groupChatId)
       .doc(timestamp)
@@ -127,7 +128,7 @@ export default class ChatBoard extends Component {
       this.currentPhotoFile = event.target.files[0]
       // Check this file is an image?
       const prefixFiletype = event.target.files[0].type.toString()
-      if (prefixFiletype.indexOf(AppString.PREFIX_IMAGE) === 0) {
+      if (prefixFiletype.indexOf("image/") === 0) {
         this.uploadPhoto()
       } else {
         this.setState({ isLoading: false })
@@ -150,11 +151,12 @@ export default class ChatBoard extends Component {
         .put(this.currentPhotoFile)
 
       uploadTask.on(
-        AppString.UPLOAD_CHANGED,
+        "state_changed",
         null,
         err => {
           this.setState({ isLoading: false })
-          this.props.showToast(0, err.message)
+          console.log(err)
+          //this.props.showToast(0, err.message)
         },
         () => {
           uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
@@ -308,7 +310,7 @@ export default class ChatBoard extends Component {
                 <div className="viewWrapItemLeft3">
                   {this.isLastMessageLeft(index) ? (
                     <img
-                      src={this.currentPeerUser.photoUrl}
+                      src={this.currentPeerUser.imageUrl}
                       alt="avatar"
                       className="peerAvatarLeft"
                     />
@@ -332,7 +334,7 @@ export default class ChatBoard extends Component {
                 <div className="viewWrapItemLeft3">
                   {this.isLastMessageLeft(index) ? (
                     <img
-                      src={this.currentPeerUser.photoUrl}
+                      src={this.currentPeerUser.imageUrl}
                       alt="avatar"
                       className="peerAvatarLeft"
                     />
@@ -360,7 +362,7 @@ export default class ChatBoard extends Component {
                 <div className="viewWrapItemLeft3">
                   {this.isLastMessageLeft(index) ? (
                     <img
-                      src={this.currentPeerUser.photoUrl}
+                      src={this.currentPeerUser.imageUrl}
                       alt="avatar"
                       className="peerAvatarLeft"
                     />
@@ -389,12 +391,12 @@ export default class ChatBoard extends Component {
     } else {
       return (
         <div className="viewWrapSayHi">
-          <span className="textSayHi">Say hi to new friend</span>
+          {/* <span className="textSayHi">Say hi to new friend</span>
           <img
             className="imgWaveHand"
             src={images.ic_wave_hand}
             alt="wave hand"
-          />
+          /> */}
         </div>
       )
     }

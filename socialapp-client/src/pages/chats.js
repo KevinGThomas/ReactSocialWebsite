@@ -1,9 +1,9 @@
 import React, { Component } from "react"
 import ReactLoading from "react-loading"
-import { myFirebase, myFirestore } from "../MyFirebase"
+import { myFirestore } from "../MyFirebase"
 import ChatBoard from "./../components/chat/ChatBoard"
 import WelcomeBoard from "./../components/chat/WelcomeBoard"
-import images from "../Images"
+//import images from "../Images"
 import "./chats.css"
 export class chats extends Component {
   constructor(props) {
@@ -14,10 +14,9 @@ export class chats extends Component {
       isOpenDialogConfirmLogout: false,
       currentPeerUser: null
     }
-    this.currentUserId = "RMaVeYyiU3aJYqEfABTY8TzT3ZH2"
-    this.currentUserHandle = "kevingt"
-    this.currentUserAvatar = "https://firebasestorage.googleapis.com/v0/b/socialapp-2b1be.appspot.com/o/7910016.jpg?alt=media"
-
+    this.currentUserId = localStorage.getItem("UserId")
+    this.currentUserAvatar = localStorage.getItem("imageUrl")
+    this.currentUserHandle = localStorage.getItem("handle")
   }
 
   componentDidMount() {

@@ -112,10 +112,33 @@ exports.login = (request, response) => {
           name: "verify"
         }
       }
-      return data.user.getIdToken()
+      // return
+      // value = {
+      //   "a": data.user.getIdToken(),
+      //   "b": "Sample value",
+      //   "c": data.user.uid,
+      //   "d": data.user.displayName,
+      //   "e": data.user.imageUrl
+      // }
+      return (
+        data.user.getIdToken()
+         //data.user.getIdToken(),
+          // id: data.user.uid,
+          // handlez: data.user.handle,
+          // handle: data.user.displayName,
+          
+          // imageUrl: data.user.imageUrl
+        )
+        // data.user.getIdToken(),
+        // "Sample value",
+        // data.user.uid,
+        // data.user.displayName,
+        // data.user.imageUrl
     })
-    .then(token => {
-      return response.json({ token })
+    .then((token) => {
+      // return response.json({ token, id, sam, handle, image })
+      //return response.json({value})
+      return response.json({token})
     })
     .catch(err => {
       console.error(err)
@@ -124,7 +147,7 @@ exports.login = (request, response) => {
       } else {
         return response
           .status(403)
-          .json({ general: "Wrong credentials, please try again." })
+          .json({ general: "Wrong credentials, please try again." + err })
       }
     })
 }
