@@ -5,7 +5,6 @@ import PropTypes from "prop-types"
 import MyButton from "../../util/MyButton"
 import PostScream from "../scream/PostScream"
 import Notifications from "./Notifications"
-import Search from "./Search"
 // MUI stuff
 import AppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"

@@ -1,11 +1,15 @@
 import React, { Component } from "react"
 import ReactLoading from "react-loading"
+import PropTypes from "prop-types"
 import { myFirestore } from "../MyFirebase"
 import ChatBoard from "./../components/chat/ChatBoard"
 import WelcomeBoard from "./../components/chat/WelcomeBoard"
-//import images from "../Images"
 import "./chats.css"
-export class chats extends Component {
+
+//Redux
+import { connect } from "react-redux"
+
+class chats extends Component {
   constructor(props) {
     super(props)
     this.listUser = []
@@ -14,9 +18,14 @@ export class chats extends Component {
       isOpenDialogConfirmLogout: false,
       currentPeerUser: null
     }
-    this.currentUserId = localStorage.getItem("UserId")
-    this.currentUserAvatar = localStorage.getItem("imageUrl")
-    this.currentUserHandle = localStorage.getItem("handle")
+    const {
+      user: {
+        credentials: { userId, handle, imageUrl }
+      }
+    } = this.props
+    this.currentUserId = userId
+    this.currentUserAvatar = imageUrl
+    this.currentUserNickname = handle
   }
 
   componentDidMount() {
@@ -47,6 +56,7 @@ export class chats extends Component {
               }
               onClick={() => {
                 this.setState({ currentPeerUser: item.data() })
+                console.log(item.data())
               }}
             >
               <img
@@ -57,7 +67,9 @@ export class chats extends Component {
               <div className="viewWrapContentItem">
                 <span className="textItem">{`${item.data().handle}`}</span>
                 <span className="textItem">{`${
-                  item.data().bio ? item.data().bio : "Hello there! I am using SocialApp."
+                  item.data().bio
+                    ? item.data().bio
+                    : "Hello there! I am using SocialApp."
                 }`}</span>
               </div>
             </button>
@@ -107,4 +119,15 @@ export class chats extends Component {
   }
 }
 
-export default chats
+const mapStateToProps = state => ({
+  user: state.user
+})
+
+//const mapActionsToProps = { logoutUser, uploadImage }
+const mapActionsToProps = {}
+
+chats.propTypes = {
+  user: PropTypes.object.isRequired
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(chats)

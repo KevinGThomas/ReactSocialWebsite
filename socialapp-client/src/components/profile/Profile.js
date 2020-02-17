@@ -50,9 +50,9 @@ class Profile extends Component {
     } = this.props
     console.log(loading)
     console.log(authenticated)
-        localStorage.setItem("UserId", userId)
-        localStorage.setItem("imageUrl", imageUrl)
-        localStorage.setItem("handle", handle)
+        //localStorage.setItem("UserId", userId)
+        //localStorage.setItem("imageUrl", imageUrl)
+        //localStorage.setItem("handle", handle)
     let profileMarkup = !loading ? (
       authenticated ? (
         <Paper className={classes.paper}>

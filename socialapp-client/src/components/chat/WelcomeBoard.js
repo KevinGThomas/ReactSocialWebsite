@@ -1,23 +1,36 @@
-import React, {Component} from 'react'
-//import 'react-toastify/dist/ReactToastify.css'
-import './WelcomeBoard.css'
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import "./WelcomeBoard.css"
 
-export default class WelcomeBoard extends Component {
-    render() {
-        return (
-            <div className="viewWelcomeBoard">
-        <span className="textTitleWelcome">{`Welcome, ${
-            this.props.currentUserNickname
-            }`}</span>
-                <img
-                    className="avatarWelcome"
-                    src={this.props.currentUserAvatar}
-                    alt="icon avatar"
-                />
-                <span className="textDesciptionWelcome">
-          Let's start talking.
-        </span>
-            </div>
-        )
-    }
+//Redux
+import { connect } from "react-redux"
+
+class WelcomeBoard extends Component {
+  render() {
+    const {
+      user: {
+        credentials: { userId, handle, imageUrl }
+      }
+    } = this.props
+    return (
+      <div className="viewWelcomeBoard">
+        <span className="textTitleWelcome">{`Welcome, ${handle}`}</span>
+        <img className="avatarWelcome" src={imageUrl} alt="icon avatar" />
+        {console.log(imageUrl)}
+        <span className="textDesciptionWelcome">Let's start talking.</span>
+      </div>
+    )
+  }
 }
+
+const mapStateToProps = state => ({
+  user: state.user
+})
+
+const mapActionsToProps = {}
+
+WelcomeBoard.propTypes = {
+  user: PropTypes.object.isRequired
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(WelcomeBoard)

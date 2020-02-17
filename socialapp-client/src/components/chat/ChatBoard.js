@@ -1,23 +1,30 @@
 import moment from "moment"
 import React, { Component } from "react"
+import PropTypes from "prop-types"
 import ReactLoading from "react-loading"
-//import "react-toastify/dist/ReactToastify.css"
 import { myFirestore, myStorage } from "../../MyFirebase"
 import images from "../../Images"
 import "./ChatBoard.css"
-//import { AppString } from "./../../Const"
 
-export default class ChatBoard extends Component {
+//Redux
+import { connect } from "react-redux"
+
+class ChatBoard extends Component {
   constructor(props) {
     super(props)
+    const {
+      user: {
+        credentials: { userId, handle, imageUrl }
+      }
+    } = this.props
     this.state = {
       isLoading: false,
       isShowSticker: false,
       inputValue: ""
     }
-    this.currentUserId = localStorage.getItem("UserId")
-    this.currentUserAvatar = localStorage.getItem("imageUrl")
-    this.currentUserHandle = localStorage.getItem("handle")
+    this.currentUserId = userId
+    this.currentUserAvatar = imageUrl
+    this.currentUserHandle = handle
     this.listMessage = []
     this.currentPeerUser = this.props.currentPeerUser
     this.groupChatId = null
@@ -72,7 +79,7 @@ export default class ChatBoard extends Component {
           snapshot.docChanges().forEach(change => {
             if (change.type === "added") {
               this.listMessage.push(change.doc.data())
-              console.log(change.doc.data())
+              //console.log(change.doc.data())
             }
           })
           this.setState({ isLoading: false })
@@ -174,6 +181,7 @@ export default class ChatBoard extends Component {
   onKeyboardPress = event => {
     if (event.key === "Enter") {
       this.onSendMessage(this.state.inputValue, 0)
+      this.setState({ inputValue: "" })
     }
   }
 
@@ -250,7 +258,10 @@ export default class ChatBoard extends Component {
             className="icSend"
             src={images.ic_send}
             alt="icon send"
-            onClick={() => this.onSendMessage(this.state.inputValue, 0)}
+            onClick={() => {
+              this.onSendMessage(this.state.inputValue, 0)
+              this.setState({ inputValue: "" })
+            }}
           />
         </div>
 
@@ -391,12 +402,12 @@ export default class ChatBoard extends Component {
     } else {
       return (
         <div className="viewWrapSayHi">
-          {/* <span className="textSayHi">Say hi to new friend</span>
+          <span className="textSayHi">Start a new conversation</span>
           <img
             className="imgWaveHand"
             src={images.ic_wave_hand}
             alt="wave hand"
-          /> */}
+          />
         </div>
       )
     }
@@ -521,3 +532,16 @@ export default class ChatBoard extends Component {
     }
   }
 }
+
+const mapStateToProps = state => ({
+  user: state.user
+})
+
+//const mapActionsToProps = { logoutUser, uploadImage }
+const mapActionsToProps = {}
+
+ChatBoard.propTypes = {
+  user: PropTypes.object.isRequired
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(ChatBoard)
