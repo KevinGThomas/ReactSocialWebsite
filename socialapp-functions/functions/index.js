@@ -53,7 +53,27 @@ app.post("/forgot", forgotPassword)
 
 exports.api = functions.https.onRequest(app)
 
-
+exports.onUserStatusChange = functions.database
+	.ref('/status/{userId}')
+	.onUpdate(event => {
+		
+		//const usersRef = firestore.document('/users/' + event.params.userId);
+		const usersRef = db.collection("users");
+		var snapShot = event.data;
+		
+		return event.data.ref.once('value')
+			.then(statusSnap => snapShot.val())
+			.then(status => {
+				if (status === 'offline'){
+					usersRef
+						.doc(event.params.userId)
+						.set({
+							online: false,
+							last_active: Date.now()
+						}, {merge: true});
+				}
+			})
+});
 
 exports.createNotificationOnLike = functions.firestore
   .document("likes/{id}")

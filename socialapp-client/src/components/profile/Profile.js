@@ -43,16 +43,19 @@ class Profile extends Component {
     const {
       classes,
       user: {
-        credentials: { userId, handle, createdAt, imageUrl, bio, website, location },
+        credentials: {
+          //userId,
+          handle,
+          createdAt,
+          imageUrl,
+          bio,
+          website,
+          location
+        },
         loading,
         authenticated
       }
     } = this.props
-    console.log(loading)
-    console.log(authenticated)
-        //localStorage.setItem("UserId", userId)
-        //localStorage.setItem("imageUrl", imageUrl)
-        //localStorage.setItem("handle", handle)
     let profileMarkup = !loading ? (
       authenticated ? (
         <Paper className={classes.paper}>

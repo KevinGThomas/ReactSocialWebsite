@@ -12,11 +12,13 @@ import { connect } from "react-redux"
 class ChatBoard extends Component {
   constructor(props) {
     super(props)
+    console.log(props.user)
     const {
       user: {
         credentials: { userId, handle, imageUrl }
       }
     } = this.props
+    console.log(userId)
     this.state = {
       isLoading: false,
       isShowSticker: false,
@@ -25,6 +27,7 @@ class ChatBoard extends Component {
     this.currentUserId = userId
     this.currentUserAvatar = imageUrl
     this.currentUserHandle = handle
+    //console.log(this.currentUserId)
     this.listMessage = []
     this.currentPeerUser = this.props.currentPeerUser
     this.groupChatId = null

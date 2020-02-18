@@ -12,20 +12,19 @@ import { connect } from "react-redux"
 class chats extends Component {
   constructor(props) {
     super(props)
-    this.listUser = []
+
+    console.log(props.user)
     this.state = {
       isLoading: true,
       isOpenDialogConfirmLogout: false,
       currentPeerUser: null
     }
-    const {
-      user: {
-        credentials: { userId, handle, imageUrl }
-      }
-    } = this.props
-    this.currentUserId = userId
-    this.currentUserAvatar = imageUrl
-    this.currentUserNickname = handle
+
+    //this.currentUserId = props.userId
+    //this.currentUserAvatar = props.imageUrl
+    //this.currentUserNickname = props.handle
+    console.log(props.userId)
+    this.listUser = []
   }
 
   componentDidMount() {
@@ -40,11 +39,12 @@ class chats extends Component {
     }
   }
 
-  renderListUser = () => {
+  renderListUser = (currentUserId) => {
     if (this.listUser.length > 0) {
       let viewListUser = []
+      //console.log(this.currentUserId)
       this.listUser.forEach((item, index) => {
-        if (item.data().userId !== this.currentUserId) {
+        if (item.data().userId !== currentUserId) {
           viewListUser.push(
             <button
               key={index}
@@ -56,7 +56,7 @@ class chats extends Component {
               }
               onClick={() => {
                 this.setState({ currentPeerUser: item.data() })
-                console.log(item.data())
+                //console.log(item.data())
               }}
             >
               <img
@@ -83,22 +83,27 @@ class chats extends Component {
   }
 
   render() {
+    const {
+      user: {
+        credentials: { userId, handle, imageUrl }
+      }
+    } = this.props
     return (
       <div className="root">
         {/* Body */}
         <div className="body">
-          <div className="viewListUser"> {this.renderListUser()}</div>
+          <div className="viewListUser"> {this.renderListUser(userId)}</div>
           <div className="viewBoard">
+            {/*{console.log(this.state.user)} */}
             {this.state.currentPeerUser ? (
               <ChatBoard
                 currentPeerUser={this.state.currentPeerUser}
+                currentUserId={this.userId}
+                // currentUserHandle={this.currentUserNickname}
                 showToast={this.props.showToast}
               />
             ) : (
-              <WelcomeBoard
-                currentUserNickname={this.currentUserHandle}
-                currentUserAvatar={this.currentUserAvatar}
-              />
+              <WelcomeBoard />
             )}
           </div>
         </div>
@@ -118,6 +123,19 @@ class chats extends Component {
     )
   }
 }
+
+// const mapStateToProps = state => ({
+//   user: state.user
+// })
+
+// //const mapActionsToProps = { logoutUser, uploadImage }
+// const mapActionsToProps = {}
+
+// chats.propTypes = {
+//   user: PropTypes.object.isRequired
+// }
+
+// export default connect(mapStateToProps, mapActionsToProps)(chats)
 
 const mapStateToProps = state => ({
   user: state.user

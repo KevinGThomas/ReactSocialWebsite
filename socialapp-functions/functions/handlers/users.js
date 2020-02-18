@@ -1,4 +1,4 @@
-const { admin, db } = require("../util/admin")
+const { admin, db, rtdb } = require("../util/admin")
 
 const config = require("../util/config")
 
@@ -112,6 +112,12 @@ exports.login = (request, response) => {
           name: "verify"
         }
       }
+     // userId = data.user.uid
+     // rtdb.getInstance().getReference("/status/" + userId)
+     //       .onDisconnect()     // Set up the disconnect hook
+     //       .setValue("offline");
+
+      
       // return
       // value = {
       //   "a": data.user.getIdToken(),

@@ -9,14 +9,19 @@ class WelcomeBoard extends Component {
   render() {
     const {
       user: {
-        credentials: { userId, handle, imageUrl }
+        credentials: {
+          //userId,
+          handle,
+          imageUrl
+        }
       }
     } = this.props
+    console.log(this.props.user)
+
     return (
       <div className="viewWelcomeBoard">
         <span className="textTitleWelcome">{`Welcome, ${handle}`}</span>
         <img className="avatarWelcome" src={imageUrl} alt="icon avatar" />
-        {console.log(imageUrl)}
         <span className="textDesciptionWelcome">Let's start talking.</span>
       </div>
     )
