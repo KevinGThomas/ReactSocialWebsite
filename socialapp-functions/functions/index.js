@@ -1,6 +1,9 @@
 const functions = require("firebase-functions")
+// const Firestore = require('@google-cloud/firestore');
 
-const cors = require('cors')
+// const firestore = new Firestore();
+
+const cors = require("cors")
 
 const {
   getAllScreams,
@@ -53,27 +56,27 @@ app.post("/forgot", forgotPassword)
 
 exports.api = functions.https.onRequest(app)
 
-exports.onUserStatusChange = functions.database
-	.ref('/status/{userId}')
-	.onUpdate(event => {
-		
-		//const usersRef = firestore.document('/users/' + event.params.userId);
-		const usersRef = db.collection("users");
-		var snapShot = event.data;
-		
-		return event.data.ref.once('value')
-			.then(statusSnap => snapShot.val())
-			.then(status => {
-				if (status === 'offline'){
-					usersRef
-						.doc(event.params.userId)
-						.set({
-							online: false,
-							last_active: Date.now()
-						}, {merge: true});
-				}
-			})
-});
+exports.onUserStatusChanged = functions.database
+  .ref("/status/{userId}")
+
+  .onUpdate((change, context) => {
+    const usersRef = db.collection("users")
+    return change.after.ref
+      .once("value")
+      .then(statusSnap => change.after.val())
+      .then(status => {
+        if (status == "offline") {
+          console.log(context.params)
+          usersRef.doc(context.params.userId).set(
+            {
+              online: false
+              //last_active: Date.now()
+            },
+            { merge: true }
+          )
+        }
+      })
+  })
 
 exports.createNotificationOnLike = functions.firestore
   .document("likes/{id}")
@@ -164,13 +167,19 @@ exports.onScreamDelete = functions.firestore
         data.forEach(doc => {
           batch.delete(db.doc(`/comments/${doc.id}`))
         })
-        return db.collection("likes").where("screamId", "==", screamId).get()
+        return db
+          .collection("likes")
+          .where("screamId", "==", screamId)
+          .get()
       })
       .then(data => {
         data.forEach(doc => {
           batch.delete(db.doc(`/likes/${doc.id}`))
         })
-        return db.collection("notifications").where("screamId", "==", screamId).get()
+        return db
+          .collection("notifications")
+          .where("screamId", "==", screamId)
+          .get()
       })
       .then(data => {
         data.forEach(doc => {

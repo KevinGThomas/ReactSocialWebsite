@@ -112,12 +112,21 @@ exports.login = (request, response) => {
           name: "verify"
         }
       }
-     // userId = data.user.uid
-     // rtdb.getInstance().getReference("/status/" + userId)
-     //       .onDisconnect()     // Set up the disconnect hook
-     //       .setValue("offline");
+      //const userId = firebase.auth().currentUser.uid
+      //console.log(handle)
+      //userId = data.user.uid
+      //    db.collection("users")
+      //      .doc(handle)
+      //      .set(
+      //       {
+      //         online: true
+      //       },
+      //       { merge: true }
+      // )
+      //rtdb.getInstance().getReference("/status/" + userId)
+      //     .onDisconnect()     // Set up the disconnect hook
+      //     .setValue("offline");
 
-      
       // return
       // value = {
       //   "a": data.user.getIdToken(),
@@ -126,25 +135,23 @@ exports.login = (request, response) => {
       //   "d": data.user.displayName,
       //   "e": data.user.imageUrl
       // }
-      return (
-        data.user.getIdToken()
-         //data.user.getIdToken(),
-          // id: data.user.uid,
-          // handlez: data.user.handle,
-          // handle: data.user.displayName,
-          
-          // imageUrl: data.user.imageUrl
-        )
-        // data.user.getIdToken(),
-        // "Sample value",
-        // data.user.uid,
-        // data.user.displayName,
-        // data.user.imageUrl
+      return data.user.getIdToken()
+      //data.user.getIdToken(),
+      // id: data.user.uid,
+      // handlez: data.user.handle,
+      // handle: data.user.displayName,
+
+      // imageUrl: data.user.imageUrl
+      // data.user.getIdToken(),
+      // "Sample value",
+      // data.user.uid,
+      // data.user.displayName,
+      // data.user.imageUrl
     })
-    .then((token) => {
+    .then(token => {
       // return response.json({ token, id, sam, handle, image })
       //return response.json({value})
-      return response.json({token})
+      return response.json({ token })
     })
     .catch(err => {
       console.error(err)
@@ -161,6 +168,7 @@ exports.login = (request, response) => {
 //Get any user's details
 exports.getUserDetails = (request, response) => {
   let userData = {}
+
   db.doc(`/users/${request.params.handle}`)
     .get()
     .then(doc => {
@@ -214,6 +222,56 @@ exports.addUserDetails = (request, response) => {
 //Get own user details
 exports.getAuthenticatedUser = (request, response) => {
   let userData = {}
+
+  db.collection("users")
+    .doc(request.user.handle)
+    .set(
+      {
+        online: true
+      },
+      { merge: true }
+    )
+
+  // const oldRealTimeDb = firebase.database()
+
+  // const usersRef = firestoreDb.collection("users") // Get a reference to the Users collection;
+  // const onlineRef = oldRealTimeDb.ref(".info/connected") // Get a reference to the list of connections
+
+  // onlineRef.on('value', snapshot => {
+  
+  //   oldRealTimeDb
+  //     .ref(`/status/${request.user.userId}`)
+  //     .onDisconnect() // Set up the disconnect hook
+  //     .set('offline') // The value to be set for this key when the client disconnects
+  //     .then(() => {
+  //         // Set the Firestore User's online status to true
+  //         usersRef
+  //           .doc(request.user.handle)
+  //           .set({
+  //             online: true,
+  //           }, { merge: true});  
+  
+  //         // Let's also create a key in our real-time database
+  //         // The value is set to 'online'
+  //         oldRealTimeDb.ref(`/status/${request.user.userId}`).set('online');
+  //     });
+    
+  // });
+
+  // onlineRef.on("value", snapshot => {
+  //   // Set the Firestore User's online status to true
+  //   usersRef.doc(request.user.handle).set(
+  //     {
+  //       online: true
+  //     },
+  //     { merge: true }
+  //   )
+
+  //   // Let's also create a key in our real-time database
+  //   // The value is set to 'online'
+  //   oldRealTimeDb.ref(`/status/${request.user.userId}`).set("online")
+  // })
+
   db.doc(`/users/${request.user.handle}`)
     .get()
     .then(doc => {

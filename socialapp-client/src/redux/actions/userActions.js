@@ -9,6 +9,8 @@ import {
 } from "../types"
 import axios from "axios"
 
+const firebase = require("firebase")
+
 //Forgot Password
 export const forgotPassword = (userData, history) => dispatch => {
   dispatch({ type: LOADING_UI })
@@ -34,7 +36,7 @@ export const loginUser = (userData, history) => dispatch => {
   axios
     .post("/login", userData)
     .then(res => {
-      setAuthorizationHeader(res.data.token, res.data.id, res.data.handle, res.data.imageUrl)
+      setAuthorizationHeader(res.data.token)
       dispatch(getUserData())
       dispatch({ type: CLEAR_ERRORS })
       history.push("/")
@@ -56,7 +58,7 @@ export const signupUser = (newUserData, history) => dispatch => {
       //setAuthorizationHeader(res.data.token)
       //dispatch(getUserData())
       dispatch({ type: CLEAR_ERRORS })
-      alert('Signup successful, please verify your email')
+      alert("Signup successful, please verify your email")
       history.push("/login")
     })
     .catch(err => {
@@ -74,6 +76,8 @@ export const logoutUser = () => dispatch => {
   localStorage.removeItem("imageUrl")
   localStorage.removeItem("handle")
   delete axios.defaults.headers.common["Authorization"]
+
+  
   dispatch({ type: SET_UNAUTHENTICATED })
 }
 
@@ -86,6 +90,50 @@ export const getUserData = () => dispatch => {
       dispatch({
         type: SET_USER,
         payload: res.data
+      })
+      console.log(res.data)
+      const firestoreDb = firebase.firestore()
+      const oldRealTimeDb = firebase.database()
+
+      const usersRef = firestoreDb.collection("users") // Get a reference to the Users collection;
+      const onlineRef = oldRealTimeDb.ref(".info/connected") // Get a reference to the list of connections
+
+      onlineRef.on("value", snapshot => {
+        oldRealTimeDb
+          //.ref(`/status/${res.data.credentials.userId}`)
+          .ref(`/status/${res.data.credentials.handle}`)
+          .onDisconnect() // Set up the disconnect hook
+          .set("offline") // The value to be set for this key when the client disconnects
+          .then(() => {
+            // Set the Firestore User's online status to true
+            usersRef.doc(res.data.credentials.handle).set(
+              {
+                online: true
+              },
+              { merge: true }
+            )
+
+            // Let's also create a key in our real-time database
+            // The value is set to 'online'
+            oldRealTimeDb
+              //.ref(`/status/${res.data.credentials.userId}`)
+              .ref(`/status/${res.data.credentials.handle}`)
+              .set("online")
+          })
+      })
+
+      onlineRef.on("value", snapshot => {
+        // Set the Firestore User's online status to true
+        usersRef.doc(res.data.credentials.handle).set(
+          {
+            online: true
+          },
+          { merge: true }
+        )
+
+        oldRealTimeDb
+          .ref(`/status/${res.data.credentials.handle}`)
+          .set("online")
       })
     })
     .catch(err => console.log(err))
@@ -123,10 +171,9 @@ export const markNotificationsRead = notificationIds => dispatch => {
       })
     })
     .catch(err => console.log(err))
-    
 }
 
-const setAuthorizationHeader = (token,userid,imageUrl,handle) => {
+const setAuthorizationHeader = token => {
   const FBIdToken = `Bearer ${token}`
   localStorage.setItem("FBIdToken", FBIdToken)
   // localStorage.setItem("UserId", userid)
