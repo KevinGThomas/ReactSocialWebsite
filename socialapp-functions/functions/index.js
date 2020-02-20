@@ -69,8 +69,8 @@ exports.onUserStatusChanged = functions.database
           console.log(context.params)
           usersRef.doc(context.params.userId).set(
             {
-              online: false
-              //last_active: Date.now()
+              online: false,
+              last_active: Date.now()
             },
             { merge: true }
           )

@@ -36,17 +36,18 @@ export const getScreams = () => dispatch => {
 //Search query
 export const getUsers = query => dispatch => {
   dispatch({ type: LOADING_DATA })
-  axios.post("/users", query)
-  .then(res => {
-    dispatch({
-      payload: res.data
+  axios
+    .post("/users", query)
+    .then(res => {
+      dispatch({
+        payload: res.data
+      })
     })
-  })
-  .catch(err => {
-    dispatch({
-      payload: []
+    .catch(err => {
+      dispatch({
+        payload: []
+      })
     })
-  })
 }
 
 //Get particular scream

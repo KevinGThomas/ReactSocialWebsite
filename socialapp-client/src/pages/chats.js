@@ -5,6 +5,8 @@ import { myFirestore } from "../MyFirebase"
 import ChatBoard from "./../components/chat/ChatBoard"
 import WelcomeBoard from "./../components/chat/WelcomeBoard"
 import "./chats.css"
+import images from "./../Images"
+import moment from "moment"
 
 //Redux
 import { connect } from "react-redux"
@@ -39,7 +41,7 @@ class chats extends Component {
     }
   }
 
-  renderListUser = (currentUserId) => {
+  renderListUser = currentUserId => {
     if (this.listUser.length > 0) {
       let viewListUser = []
       //console.log(this.currentUserId)
@@ -59,16 +61,33 @@ class chats extends Component {
                 //console.log(item.data())
               }}
             >
-              <img
-                className="viewAvatarItem"
-                src={item.data().imageUrl}
-                alt="icon avatar"
-              />
+              <div className="img-header">
+                <img
+                  className="viewAvatarItem"
+                  src={item.data().imageUrl}
+                  alt="icon avatar"
+                />
+                {item.data().online ? (
+                  <img
+                    className="online"
+                    src={images.green_circle}
+                    alt="online"
+                  />
+                ) : (
+                  <img
+                    className="online"
+                    src={images.grey_circle}
+                    alt="offline"
+                  />
+                )}
+              </div>
               <div className="viewWrapContentItem">
                 <span className="textItem">{`${item.data().handle}`}</span>
                 <span className="textItem">{`${
-                  item.data().bio
-                    ? item.data().bio
+                  item.data().online
+                    ? "online"
+                    : item.data().last_active
+                    ? "last seen " + moment(item.data().last_active).fromNow()
                     : "Hello there! I am using SocialApp."
                 }`}</span>
               </div>
@@ -85,7 +104,10 @@ class chats extends Component {
   render() {
     const {
       user: {
-        credentials: { userId, handle, imageUrl }
+        credentials: {
+          userId
+          // handle, imageUrl
+        }
       }
     } = this.props
     return (

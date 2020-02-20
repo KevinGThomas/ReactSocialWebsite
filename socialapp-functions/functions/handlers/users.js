@@ -112,45 +112,9 @@ exports.login = (request, response) => {
           name: "verify"
         }
       }
-      //const userId = firebase.auth().currentUser.uid
-      //console.log(handle)
-      //userId = data.user.uid
-      //    db.collection("users")
-      //      .doc(handle)
-      //      .set(
-      //       {
-      //         online: true
-      //       },
-      //       { merge: true }
-      // )
-      //rtdb.getInstance().getReference("/status/" + userId)
-      //     .onDisconnect()     // Set up the disconnect hook
-      //     .setValue("offline");
-
-      // return
-      // value = {
-      //   "a": data.user.getIdToken(),
-      //   "b": "Sample value",
-      //   "c": data.user.uid,
-      //   "d": data.user.displayName,
-      //   "e": data.user.imageUrl
-      // }
       return data.user.getIdToken()
-      //data.user.getIdToken(),
-      // id: data.user.uid,
-      // handlez: data.user.handle,
-      // handle: data.user.displayName,
-
-      // imageUrl: data.user.imageUrl
-      // data.user.getIdToken(),
-      // "Sample value",
-      // data.user.uid,
-      // data.user.displayName,
-      // data.user.imageUrl
     })
     .then(token => {
-      // return response.json({ token, id, sam, handle, image })
-      //return response.json({value})
       return response.json({ token })
     })
     .catch(err => {
@@ -238,7 +202,7 @@ exports.getAuthenticatedUser = (request, response) => {
   // const onlineRef = oldRealTimeDb.ref(".info/connected") // Get a reference to the list of connections
 
   // onlineRef.on('value', snapshot => {
-  
+
   //   oldRealTimeDb
   //     .ref(`/status/${request.user.userId}`)
   //     .onDisconnect() // Set up the disconnect hook
@@ -249,13 +213,13 @@ exports.getAuthenticatedUser = (request, response) => {
   //           .doc(request.user.handle)
   //           .set({
   //             online: true,
-  //           }, { merge: true});  
-  
+  //           }, { merge: true});
+
   //         // Let's also create a key in our real-time database
   //         // The value is set to 'online'
   //         oldRealTimeDb.ref(`/status/${request.user.userId}`).set('online');
   //     });
-    
+
   // });
 
   // onlineRef.on("value", snapshot => {

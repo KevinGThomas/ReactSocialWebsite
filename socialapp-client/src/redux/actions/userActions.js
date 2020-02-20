@@ -71,13 +71,13 @@ export const signupUser = (newUserData, history) => dispatch => {
 
 //Logout
 export const logoutUser = () => dispatch => {
+  //firebase.auth().onDisconnect()
   localStorage.removeItem("FBIdToken")
   localStorage.removeItem("UserId")
   localStorage.removeItem("imageUrl")
   localStorage.removeItem("handle")
   delete axios.defaults.headers.common["Authorization"]
 
-  
   dispatch({ type: SET_UNAUTHENTICATED })
 }
 
