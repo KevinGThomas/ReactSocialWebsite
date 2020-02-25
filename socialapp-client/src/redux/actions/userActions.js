@@ -9,6 +9,8 @@ import {
 } from "../types"
 import axios from "axios"
 
+import { askForPermissionToReceiveNotifications } from "./../../push-notification"
+
 const firebase = require("firebase")
 
 //Forgot Password
@@ -91,7 +93,10 @@ export const getUserData = () => dispatch => {
         type: SET_USER,
         payload: res.data
       })
-      console.log(res.data)
+      //console.log(res.data)
+
+      askForPermissionToReceiveNotifications()
+
       const firestoreDb = firebase.firestore()
       const oldRealTimeDb = firebase.database()
 

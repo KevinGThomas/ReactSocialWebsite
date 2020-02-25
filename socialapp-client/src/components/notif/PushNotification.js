@@ -13,7 +13,10 @@ import Paper from "@material-ui/core/Paper"
 import { connect } from "react-redux"
 import { logoutUser, uploadImage } from "../../redux/actions/userActions"
 
-import { askForPermissionToReceiveNotifications } from "./../../push-notification"
+import {
+  askForPermissionToReceiveNotifications,
+  sendNotifications
+} from "./../../push-notification"
 
 const styles = theme => ({
   ...theme.content
@@ -38,6 +41,7 @@ export class PushNotification extends Component {
               variant="contained"
               color="primary"
               onClick={askForPermissionToReceiveNotifications}
+              //onClick={sendNotifications}
             >
               Receive Notifications
             </Button>

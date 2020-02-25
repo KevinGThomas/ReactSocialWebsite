@@ -12,8 +12,6 @@ import ScreamSkeleton from "../util/ScreamSkeleton"
 import { connect } from "react-redux"
 import { getScreams } from "../redux/actions/dataActions"
 
-
-
 class home extends Component {
   componentDidMount() {
     this.props.getScreams()
@@ -37,7 +35,7 @@ class home extends Component {
           <Chat />
           <br />
           <br />
-          <PushNotification/>
+          {/* <PushNotification/> */}
         </Grid>
         <Grid item sm={8} xs={12}></Grid>
       </Grid>

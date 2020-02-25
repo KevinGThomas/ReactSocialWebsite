@@ -14,6 +14,8 @@ import {
 } from "../types"
 import axios from "axios"
 
+import { sendNotifications } from "./../../push-notification"
+
 // Get all screams
 export const getScreams = () => dispatch => {
   dispatch({ type: LOADING_DATA })
@@ -76,6 +78,7 @@ export const postScream = newScream => dispatch => {
         payload: res.data
       })
       dispatch(clearErrors())
+      sendNotifications("Someone has posted a new scream")
     })
     .catch(err => {
       dispatch({
