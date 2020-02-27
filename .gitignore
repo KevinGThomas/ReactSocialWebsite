@@ -1,0 +1,4 @@
+/node_modules
+/socialapp-client/node_modules
+/socialapp-functions/functions/node_modules
+/socialapp-functions/functions/util/admin.json
