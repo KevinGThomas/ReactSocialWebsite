@@ -1,13 +1,10 @@
 import firebase from "firebase"
 
-import { myFirebase } from "./MyFirebase"
 import axios from "axios"
 
-navigator.serviceWorker.register("/my-sw.js").then(registration => {
-  firebase.messaging().useServiceWorker(registration)
-})
-
-const messaging = firebase.messaging()
+// navigator.serviceWorker.register("/my-sw.js").then(registration => {
+//   firebase.messaging().useServiceWorker(registration)
+// })
 
 export const askForPermissionToReceiveNotifications = async () => {
   try {
@@ -32,7 +29,7 @@ export const askForPermissionToReceiveNotifications = async () => {
     const request = buildRequest()
     axios(request)
       .then(r => {
-        console.log(r)
+        //console.log(r)
       })
       .catch(error => {
         console.log(error)
@@ -43,7 +40,7 @@ export const askForPermissionToReceiveNotifications = async () => {
   }
 }
 
-export const sendNotifications = async (notification_body) => {
+export const sendNotifications = async notification_body => {
   try {
     const fcmUrl = "https://fcm.googleapis.com/fcm/send"
     const fcmKey =
@@ -79,12 +76,12 @@ export const sendNotifications = async (notification_body) => {
     //   sendNotification(notification)
     // })
     const notification = buildNotification(notification_body)
-    console.log(notification)
+    //console.log(notification)
     const request = buildRequest(notification)
-    console.log(request)
+    //console.log(request)
     axios(request)
       .then(r => {
-        console.log(r)
+        //console.log(r)
       })
       .catch(error => {
         console.log(error)

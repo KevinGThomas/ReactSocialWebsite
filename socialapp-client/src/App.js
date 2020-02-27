@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import "./App.css"
-import {MuiThemeProvider} from "@material-ui/core/styles"
+import { MuiThemeProvider } from "@material-ui/core/styles"
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme"
 import jwtDecode from "jwt-decode"
 
@@ -24,14 +24,12 @@ import user from "./pages/user"
 import forgot from "./pages/forgot"
 import chats from "./pages/chats"
 
-
-
 //Axios
 import axios from "axios"
 
 const theme = createMuiTheme(themeObject)
 
-axios.defaults.baseURL = 
+axios.defaults.baseURL =
   "https://us-central1-socialapp-2b1be.cloudfunctions.net/api"
 
 const token = localStorage.FBIdToken
@@ -65,11 +63,7 @@ class App extends Component {
                   path="/users/:handle/scream/:screamId"
                   component={user}
                 />
-                <Route
-                  exact
-                  path="/chats"
-                  component={chats}
-                />
+                <Route exact path="/chats" component={chats} />
                 <AuthRoute exact path="/forgot" component={forgot} />
               </Switch>
             </div>

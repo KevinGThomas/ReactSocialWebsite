@@ -15,7 +15,7 @@ class chats extends Component {
   constructor(props) {
     super(props)
 
-    console.log(props.user)
+    //console.log(props.user)
     this.state = {
       isLoading: true,
       isOpenDialogConfirmLogout: false,
@@ -25,7 +25,7 @@ class chats extends Component {
     //this.currentUserId = props.userId
     //this.currentUserAvatar = props.imageUrl
     //this.currentUserNickname = props.handle
-    console.log(props.userId)
+    //console.log(props.userId)
     this.listUser = []
   }
 

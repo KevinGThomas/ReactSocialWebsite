@@ -16,7 +16,7 @@ class WelcomeBoard extends Component {
         }
       }
     } = this.props
-    console.log(this.props.user)
+    //console.log(this.props.user)
 
     return (
       <div className="viewWelcomeBoard">

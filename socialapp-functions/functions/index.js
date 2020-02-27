@@ -66,7 +66,7 @@ exports.onUserStatusChanged = functions.database
       .then(statusSnap => change.after.val())
       .then(status => {
         if (status == "offline") {
-          console.log(context.params)
+          //console.log(context.params)
           usersRef.doc(context.params.userId).set(
             {
               online: false,

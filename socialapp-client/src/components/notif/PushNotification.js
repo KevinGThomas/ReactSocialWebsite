@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import withStyles from "@material-ui/core/styles/withStyles"
-import { Link } from "react-router-dom"
 import ChatSkeleton from "../../util/ChatSkeleton"
 
 // MUI stuff
@@ -15,7 +14,6 @@ import { logoutUser, uploadImage } from "../../redux/actions/userActions"
 
 import {
   askForPermissionToReceiveNotifications,
-  sendNotifications
 } from "./../../push-notification"
 
 const styles = theme => ({
