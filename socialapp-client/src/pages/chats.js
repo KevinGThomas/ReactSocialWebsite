@@ -2,11 +2,12 @@ import React, { Component } from "react"
 import ReactLoading from "react-loading"
 import PropTypes from "prop-types"
 import { myFirestore } from "../MyFirebase"
-import ChatBoard from "./../components/chat/ChatBoard"
+//import ChatBoard from "./../components/chat/ChatBoard"
 import WelcomeBoard from "./../components/chat/WelcomeBoard"
 import "./chats.css"
 import images from "./../Images"
 import moment from "moment"
+import Chat from './../components/chat-spring/Chat'
 
 //Redux
 import { connect } from "react-redux"
@@ -24,7 +25,7 @@ class chats extends Component {
 
     //this.currentUserId = props.userId
     //this.currentUserAvatar = props.imageUrl
-    //this.currentUserNickname = props.handle
+    this.currentUserNickname = props.handle
     //console.log(props.userId)
     this.listUser = []
   }
@@ -119,16 +120,16 @@ class chats extends Component {
             {/*{console.log(this.state.user)} */}
             {this.state.currentPeerUser ? (
 
-                          // <Chat currentPeerUser={this.state.currentPeerUser}
-                          // currentUserId={userId}   
-                          // currentUserHandle={handle}/>
+                          <Chat currentPeerUser={this.state.currentPeerUser}
+                          currentUserId={userId}   
+                          currentUserHandle={this.currentUserNickname}/>
 
-              <ChatBoard
-                currentPeerUser={this.state.currentPeerUser}
-                currentUserId={this.userId}
-                // currentUserHandle={this.currentUserNickname}
-                showToast={this.props.showToast}
-              />
+              // <ChatBoard
+              //   currentPeerUser={this.state.currentPeerUser}
+              //   currentUserId={this.userId}
+              //   // currentUserHandle={this.currentUserNickname}
+              //   showToast={this.props.showToast}
+              // />
             ) : (
               <WelcomeBoard />
             )}

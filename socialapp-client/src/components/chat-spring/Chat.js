@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
 import {connect} from "react-redux";
-import "./../chat/Spring-chat.css"
+import "./../chat/SpringChat.css"
 
 class chat extends Component {
   static stompClient;
@@ -22,6 +22,7 @@ class chat extends Component {
     this.currentPeerUser = this.props.currentPeerUser
     this.handleMessage=this.handleMessage.bind(this);
     this.sendMessage=this.sendMessage.bind(this);
+    this.onKeyBoardPress=this.onKeyBoardPress.bind(this);
     this.topicId=this.currentPeerUser.userId<=this.state.userId?this.currentPeerUser.userId+'-'+this.state.userId:this.state.userId+'-'+this.currentPeerUser.userId;
   }
   
@@ -42,6 +43,11 @@ class chat extends Component {
             
         });
     });  
+  }
+
+  onKeyBoardPress(event){
+    if(event.key==="Enter")
+      this.sendMessage()
   }
 
   handleMessage(event){
@@ -73,13 +79,13 @@ class chat extends Component {
         <div className="chat" id="chat">
            {
             this.state.messages.map((message)=>
-            <div className={this.state.userId==message.sentByUserId?"viewItemRight":"viewItemLeft"}>
+            <div className={this.state.userId===message.sentByUserId?"viewItemRight":"viewItemLeft"}>
               <div className="textContentItem">{message.message}</div>
               </div>
             )
           }
         </div>
-        <div className="messageBox"><TextField onChange={this.handleMessage}  value={this.state.message} variant="outlined" fullWidth></TextField>
+        <div className="messageBox"><TextField onChange={this.handleMessage} onKeyPress={this.onKeyBoardPress} value={this.state.message} variant="outlined" fullWidth></TextField>
         <Button variant="contained"  color="primary" onClick={this.sendMessage}>
         Send
         </Button>
