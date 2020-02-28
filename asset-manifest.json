@@ -1,24 +1,35 @@
 {
   "files": {
-    "main.css": "/ReactSocialWebsite/static/css/main.92a846c7.chunk.css",
-    "main.js": "/ReactSocialWebsite/static/js/main.8f83ecc8.chunk.js",
-    "main.js.map": "/ReactSocialWebsite/static/js/main.8f83ecc8.chunk.js.map",
+    "main.css": "/ReactSocialWebsite/static/css/main.b3b6aeed.chunk.css",
+    "main.js": "/ReactSocialWebsite/static/js/main.a1a64a21.chunk.js",
+    "main.js.map": "/ReactSocialWebsite/static/js/main.a1a64a21.chunk.js.map",
     "runtime-main.js": "/ReactSocialWebsite/static/js/runtime-main.7ce4de9b.js",
     "runtime-main.js.map": "/ReactSocialWebsite/static/js/runtime-main.7ce4de9b.js.map",
-    "static/js/2.07cc9e80.chunk.js": "/ReactSocialWebsite/static/js/2.07cc9e80.chunk.js",
-    "static/js/2.07cc9e80.chunk.js.map": "/ReactSocialWebsite/static/js/2.07cc9e80.chunk.js.map",
+    "static/js/2.4ebacba8.chunk.js": "/ReactSocialWebsite/static/js/2.4ebacba8.chunk.js",
+    "static/js/2.4ebacba8.chunk.js.map": "/ReactSocialWebsite/static/js/2.4ebacba8.chunk.js.map",
     "index.html": "/ReactSocialWebsite/index.html",
-    "precache-manifest.7fb46067ba911af51c4ea825589cad1e.js": "/ReactSocialWebsite/precache-manifest.7fb46067ba911af51c4ea825589cad1e.js",
+    "precache-manifest.ce71c1cc0aa739e7a6bee5850d0b480e.js": "/ReactSocialWebsite/precache-manifest.ce71c1cc0aa739e7a6bee5850d0b480e.js",
     "service-worker.js": "/ReactSocialWebsite/service-worker.js",
-    "static/css/main.92a846c7.chunk.css.map": "/ReactSocialWebsite/static/css/main.92a846c7.chunk.css.map",
-    "static/js/2.07cc9e80.chunk.js.LICENSE": "/ReactSocialWebsite/static/js/2.07cc9e80.chunk.js.LICENSE",
+    "static/css/main.b3b6aeed.chunk.css.map": "/ReactSocialWebsite/static/css/main.b3b6aeed.chunk.css.map",
+    "static/js/2.4ebacba8.chunk.js.LICENSE": "/ReactSocialWebsite/static/js/2.4ebacba8.chunk.js.LICENSE",
+    "static/media/green_circle.png": "/ReactSocialWebsite/static/media/green_circle.92438562.png",
+    "static/media/ic_wave_hand.png": "/ReactSocialWebsite/static/media/ic_wave_hand.9299706f.png",
+    "static/media/mimi1.gif": "/ReactSocialWebsite/static/media/mimi1.477fc8dd.gif",
+    "static/media/mimi2.gif": "/ReactSocialWebsite/static/media/mimi2.82a78335.gif",
+    "static/media/mimi3.gif": "/ReactSocialWebsite/static/media/mimi3.477fc8dd.gif",
+    "static/media/mimi4.gif": "/ReactSocialWebsite/static/media/mimi4.6b657423.gif",
+    "static/media/mimi5.gif": "/ReactSocialWebsite/static/media/mimi5.609127cb.gif",
+    "static/media/mimi6.gif": "/ReactSocialWebsite/static/media/mimi6.1ce35a6b.gif",
+    "static/media/mimi7.gif": "/ReactSocialWebsite/static/media/mimi7.ace546bd.gif",
+    "static/media/mimi8.gif": "/ReactSocialWebsite/static/media/mimi8.6646a3de.gif",
+    "static/media/mimi9.gif": "/ReactSocialWebsite/static/media/mimi9.b5ec7c32.gif",
     "static/media/no-img.png": "/ReactSocialWebsite/static/media/no-img.6732bd42.png",
     "static/media/site_logo.png": "/ReactSocialWebsite/static/media/site_logo.522efa46.png"
   },
   "entrypoints": [
     "static/js/runtime-main.7ce4de9b.js",
-    "static/js/2.07cc9e80.chunk.js",
-    "static/css/main.92a846c7.chunk.css",
-    "static/js/main.8f83ecc8.chunk.js"
+    "static/js/2.4ebacba8.chunk.js",
+    "static/css/main.b3b6aeed.chunk.css",
+    "static/js/main.a1a64a21.chunk.js"
   ]
 }
