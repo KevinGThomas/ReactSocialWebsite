@@ -1,3 +1,7 @@
+
+import "firebase/database"
+import "firebase/firestore"
+
 import {
   SET_USER,
   SET_ERRORS,
@@ -10,9 +14,7 @@ import {
 import axios from "axios"
 
 import { askForPermissionToReceiveNotifications } from "./../../push-notification"
-
-const firebase = require("firebase")
-
+const firebase = require("firebase/app")
 //Forgot Password
 export const forgotPassword = (userData, history) => dispatch => {
   dispatch({ type: LOADING_UI })
