@@ -43,12 +43,19 @@ class Profile extends Component {
     const {
       classes,
       user: {
-        credentials: { handle, createdAt, imageUrl, bio, website, location },
+        credentials: {
+          //userId,
+          handle,
+          createdAt,
+          imageUrl,
+          bio,
+          website,
+          location
+        },
         loading,
         authenticated
       }
     } = this.props
-
     let profileMarkup = !loading ? (
       authenticated ? (
         <Paper className={classes.paper}>

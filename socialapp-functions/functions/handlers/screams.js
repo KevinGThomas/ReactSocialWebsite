@@ -1,5 +1,6 @@
 const { db } = require("../util/admin")
 
+
 exports.getAllScreams = (request, response) => {
   db.collection("screams")
     .orderBy("createdAt", "desc")
@@ -23,6 +24,31 @@ exports.getAllScreams = (request, response) => {
       console.error(err)
       response.status(500).json({ error: err.code })
     })
+}
+
+exports.getUsers = (request, response) => { 
+  const User = {
+    user: request.body.user,
+  }
+  db.collection("users")
+  .where("handle", ">=", User.user)
+  .where("handle", "<=", User.user+"\uf8ff")
+  //.startAt(User.user)
+  //.endAt(User.user+"\uf8ff")
+  .get()
+  .then(data => {
+    let users = []
+    data.forEach(doc => {
+      users.push({
+        user: doc.id
+      })
+    })
+    return response.json(users)
+  })
+  .catch(err => {
+    console.error(err)
+    response.status(500).json({error: err.code})
+  })
 }
 
 exports.postOneScream = (request, response) => {

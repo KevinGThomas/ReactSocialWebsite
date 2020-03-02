@@ -14,6 +14,8 @@ import {
 } from "../types"
 import axios from "axios"
 
+import { sendNotifications } from "./../../push-notification"
+
 // Get all screams
 export const getScreams = () => dispatch => {
   dispatch({ type: LOADING_DATA })
@@ -28,6 +30,23 @@ export const getScreams = () => dispatch => {
     .catch(err => {
       dispatch({
         type: SET_SCREAMS,
+        payload: []
+      })
+    })
+}
+
+//Search query
+export const getUsers = query => dispatch => {
+  dispatch({ type: LOADING_DATA })
+  axios
+    .post("/users", query)
+    .then(res => {
+      dispatch({
+        payload: res.data
+      })
+    })
+    .catch(err => {
+      dispatch({
         payload: []
       })
     })
@@ -59,6 +78,7 @@ export const postScream = newScream => dispatch => {
         payload: res.data
       })
       dispatch(clearErrors())
+      sendNotifications("Someone has posted a new scream")
     })
     .catch(err => {
       dispatch({

@@ -1,6 +1,9 @@
 const functions = require("firebase-functions")
+// const Firestore = require('@google-cloud/firestore');
 
-const cors = require('cors')
+// const firestore = new Firestore();
+
+const cors = require("cors")
 
 const {
   getAllScreams,
@@ -9,7 +12,8 @@ const {
   commentOnScream,
   likeScream,
   unlikeScream,
-  deleteScream
+  deleteScream,
+  getUsers
 } = require("./handlers/screams")
 const {
   signup,
@@ -18,7 +22,8 @@ const {
   addUserDetails,
   getAuthenticatedUser,
   getUserDetails,
-  markNotificationsRead
+  markNotificationsRead,
+  forgotPassword
 } = require("./handlers/users")
 
 const express = require("express")
@@ -37,6 +42,7 @@ app.delete("/scream/:screamId", FBAuth, deleteScream)
 app.get("/scream/:screamId/like", FBAuth, likeScream)
 app.get("/scream/:screamId/unlike", FBAuth, unlikeScream)
 app.post("/scream/:screamId/comment", FBAuth, commentOnScream)
+app.post("/users", getUsers)
 
 //Users routes
 app.post("/signup", signup)
@@ -46,8 +52,31 @@ app.post("/user", FBAuth, addUserDetails)
 app.get("/user", FBAuth, getAuthenticatedUser)
 app.get("/user/:handle", getUserDetails)
 app.post("/notifications", FBAuth, markNotificationsRead)
+app.post("/forgot", forgotPassword)
 
 exports.api = functions.https.onRequest(app)
+
+exports.onUserStatusChanged = functions.database
+  .ref("/status/{userId}")
+
+  .onUpdate((change, context) => {
+    const usersRef = db.collection("users")
+    return change.after.ref
+      .once("value")
+      .then(statusSnap => change.after.val())
+      .then(status => {
+        if (status == "offline") {
+          //console.log(context.params)
+          usersRef.doc(context.params.userId).set(
+            {
+              online: false,
+              last_active: Date.now()
+            },
+            { merge: true }
+          )
+        }
+      })
+  })
 
 exports.createNotificationOnLike = functions.firestore
   .document("likes/{id}")
@@ -138,13 +167,19 @@ exports.onScreamDelete = functions.firestore
         data.forEach(doc => {
           batch.delete(db.doc(`/comments/${doc.id}`))
         })
-        return db.collection("likes").where("screamId", "==", screamId).get()
+        return db
+          .collection("likes")
+          .where("screamId", "==", screamId)
+          .get()
       })
       .then(data => {
         data.forEach(doc => {
           batch.delete(db.doc(`/likes/${doc.id}`))
         })
-        return db.collection("notifications").where("screamId", "==", screamId).get()
+        return db
+          .collection("notifications")
+          .where("screamId", "==", screamId)
+          .get()
       })
       .then(data => {
         data.forEach(doc => {

@@ -39,7 +39,7 @@ class Notifications extends Component {
   }
   render() {
     const notifications = this.props.notifications
-    console.log(notifications)
+    //console.log(notifications)
     const anchorEl = this.state.anchorEl
 
     dayjs.extend(relativeTime)
@@ -68,7 +68,7 @@ class Notifications extends Component {
           const verb = not.type === "like" ? "liked" : "commented on"
 
           const time = dayjs(not.createdAt).fromNow()
-          console.log(not)
+          //console.log(not)
           const iconColor = not.read ? "primary" : "secondary"
           const icon =
             not.type === "like" ? (

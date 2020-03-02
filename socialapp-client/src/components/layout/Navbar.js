@@ -27,6 +27,7 @@ class Navbar extends Component {
                 </MyButton>
               </Link>
               <Notifications />
+              {/* <Search/> */}
             </Fragment>
           ) : (
             <Fragment>

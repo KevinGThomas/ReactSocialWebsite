@@ -1,4 +1,4 @@
-const { admin, db } = require("../util/admin")
+const { admin, db, rtdb } = require("../util/admin")
 
 const config = require("../util/config")
 
@@ -10,6 +10,25 @@ const {
   validateLoginData,
   reduceUserDetails
 } = require("../util/validators")
+
+exports.forgotPassword = (request, response) => {
+  const userValue = {
+    email: request.body.email
+  }
+  firebase
+    .auth()
+    .sendPasswordResetEmail(userValue.email)
+    .then(function() {
+      return response.json({
+        general: "Reset password mail sent successfully."
+      })
+    })
+    .catch(function(error) {
+      return response.status(500).json({
+        general: "Something went wrong, please try again."
+      })
+    })
+}
 
 exports.signup = (request, response) => {
   const newUser = {
@@ -42,6 +61,7 @@ exports.signup = (request, response) => {
       }
     })
     .then(data => {
+      firebase.auth().currentUser.sendEmailVerification()
       userId = data.user.uid
       return data.user.getIdToken()
     })
@@ -63,10 +83,12 @@ exports.signup = (request, response) => {
       console.error(err)
       if (err.code == "auth/email-already-in-use") {
         return response.status(400).json({ email: "Email is already in use" })
+      } else if (err.code == "auth/weak-password") {
+        return response.status(400).json({ password: "Password is too weak" })
       } else {
-        return response
-          .status(500)
-          .json({ general: "Something went wrong, please try again" })
+        return response.status(500).json({
+          general: "Something went wrong, please try again - " + err.code
+        })
       }
     })
 }
@@ -85,6 +107,11 @@ exports.login = (request, response) => {
     .auth()
     .signInWithEmailAndPassword(user.email, user.password)
     .then(data => {
+      if (!firebase.auth().currentUser.emailVerified) {
+        throw {
+          name: "verify"
+        }
+      }
       return data.user.getIdToken()
     })
     .then(token => {
@@ -92,15 +119,20 @@ exports.login = (request, response) => {
     })
     .catch(err => {
       console.error(err)
-      return response
-        .status(403)
-        .json({ general: "Wrong credentials, please try again." })
+      if (err.name === "verify") {
+        return response.status(403).json({ general: "Email not verified" })
+      } else {
+        return response
+          .status(403)
+          .json({ general: "Wrong credentials, please try again." + err })
+      }
     })
 }
 
 //Get any user's details
 exports.getUserDetails = (request, response) => {
   let userData = {}
+
   db.doc(`/users/${request.params.handle}`)
     .get()
     .then(doc => {
@@ -154,6 +186,56 @@ exports.addUserDetails = (request, response) => {
 //Get own user details
 exports.getAuthenticatedUser = (request, response) => {
   let userData = {}
+
+  db.collection("users")
+    .doc(request.user.handle)
+    .set(
+      {
+        online: true
+      },
+      { merge: true }
+    )
+
+  // const oldRealTimeDb = firebase.database()
+
+  // const usersRef = firestoreDb.collection("users") // Get a reference to the Users collection;
+  // const onlineRef = oldRealTimeDb.ref(".info/connected") // Get a reference to the list of connections
+
+  // onlineRef.on('value', snapshot => {
+
+  //   oldRealTimeDb
+  //     .ref(`/status/${request.user.userId}`)
+  //     .onDisconnect() // Set up the disconnect hook
+  //     .set('offline') // The value to be set for this key when the client disconnects
+  //     .then(() => {
+  //         // Set the Firestore User's online status to true
+  //         usersRef
+  //           .doc(request.user.handle)
+  //           .set({
+  //             online: true,
+  //           }, { merge: true});
+
+  //         // Let's also create a key in our real-time database
+  //         // The value is set to 'online'
+  //         oldRealTimeDb.ref(`/status/${request.user.userId}`).set('online');
+  //     });
+
+  // });
+
+  // onlineRef.on("value", snapshot => {
+  //   // Set the Firestore User's online status to true
+  //   usersRef.doc(request.user.handle).set(
+  //     {
+  //       online: true
+  //     },
+  //     { merge: true }
+  //   )
+
+  //   // Let's also create a key in our real-time database
+  //   // The value is set to 'online'
+  //   oldRealTimeDb.ref(`/status/${request.user.userId}`).set("online")
+  // })
+
   db.doc(`/users/${request.user.handle}`)
     .get()
     .then(doc => {

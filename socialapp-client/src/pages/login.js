@@ -104,6 +104,12 @@ class login extends Component {
               )}
             </Button>
             <br />
+            <br />
+            <small>
+              forgot password ? click <Link to="/forgot">here</Link>
+            </small>
+            <br />
+            <br />
             <small>
               dont have an account ? sign up <Link to="/signup">here</Link>
             </small>

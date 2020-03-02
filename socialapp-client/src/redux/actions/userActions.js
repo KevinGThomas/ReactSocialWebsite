@@ -1,3 +1,7 @@
+
+import "firebase/database"
+import "firebase/firestore"
+
 import {
   SET_USER,
   SET_ERRORS,
@@ -8,6 +12,27 @@ import {
   MARK_NOTIFICATIONS_READ
 } from "../types"
 import axios from "axios"
+
+import { askForPermissionToReceiveNotifications } from "./../../push-notification"
+const firebase = require("firebase/app")
+//Forgot Password
+export const forgotPassword = (userData, history) => dispatch => {
+  dispatch({ type: LOADING_UI })
+  axios
+    .post("/forgot", userData)
+    .then(res => {
+      //dispatch(getUserData())
+      dispatch({ type: CLEAR_ERRORS })
+      alert("Password reset mail sent successfully")
+      history.push("/login")
+    })
+    .catch(err => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data
+      })
+    })
+}
 
 //Login
 export const loginUser = (userData, history) => dispatch => {
@@ -34,10 +59,11 @@ export const signupUser = (newUserData, history) => dispatch => {
   axios
     .post("/signup", newUserData)
     .then(res => {
-      setAuthorizationHeader(res.data.token)
-      dispatch(getUserData())
+      //setAuthorizationHeader(res.data.token)
+      //dispatch(getUserData())
       dispatch({ type: CLEAR_ERRORS })
-      history.push("/")
+      alert("Signup successful, please verify your email")
+      history.push("/login")
     })
     .catch(err => {
       dispatch({
@@ -49,8 +75,13 @@ export const signupUser = (newUserData, history) => dispatch => {
 
 //Logout
 export const logoutUser = () => dispatch => {
+  //firebase.auth().onDisconnect()
   localStorage.removeItem("FBIdToken")
+  localStorage.removeItem("UserId")
+  localStorage.removeItem("imageUrl")
+  localStorage.removeItem("handle")
   delete axios.defaults.headers.common["Authorization"]
+
   dispatch({ type: SET_UNAUTHENTICATED })
 }
 
@@ -63,6 +94,53 @@ export const getUserData = () => dispatch => {
       dispatch({
         type: SET_USER,
         payload: res.data
+      })
+      //console.log(res.data)
+
+      askForPermissionToReceiveNotifications()
+
+      const firestoreDb = firebase.firestore()
+      const oldRealTimeDb = firebase.database()
+
+      const usersRef = firestoreDb.collection("users") // Get a reference to the Users collection;
+      const onlineRef = oldRealTimeDb.ref(".info/connected") // Get a reference to the list of connections
+
+      onlineRef.on("value", snapshot => {
+        oldRealTimeDb
+          //.ref(`/status/${res.data.credentials.userId}`)
+          .ref(`/status/${res.data.credentials.handle}`)
+          .onDisconnect() // Set up the disconnect hook
+          .set("offline") // The value to be set for this key when the client disconnects
+          .then(() => {
+            // Set the Firestore User's online status to true
+            usersRef.doc(res.data.credentials.handle).set(
+              {
+                online: true
+              },
+              { merge: true }
+            )
+
+            // Let's also create a key in our real-time database
+            // The value is set to 'online'
+            oldRealTimeDb
+              //.ref(`/status/${res.data.credentials.userId}`)
+              .ref(`/status/${res.data.credentials.handle}`)
+              .set("online")
+          })
+      })
+
+      onlineRef.on("value", snapshot => {
+        // Set the Firestore User's online status to true
+        usersRef.doc(res.data.credentials.handle).set(
+          {
+            online: true
+          },
+          { merge: true }
+        )
+
+        oldRealTimeDb
+          .ref(`/status/${res.data.credentials.handle}`)
+          .set("online")
       })
     })
     .catch(err => console.log(err))
@@ -100,11 +178,14 @@ export const markNotificationsRead = notificationIds => dispatch => {
       })
     })
     .catch(err => console.log(err))
-    
 }
 
 const setAuthorizationHeader = token => {
   const FBIdToken = `Bearer ${token}`
   localStorage.setItem("FBIdToken", FBIdToken)
+  // localStorage.setItem("UserId", userid)
+  // localStorage.setItem("imageUrl", imageUrl)
+  // localStorage.setItem("handle", handle)
+
   axios.defaults.headers.common["Authorization"] = FBIdToken
 }
